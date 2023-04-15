@@ -43,72 +43,40 @@ class ShopProduct {
 }
 
 class CdProduct extends ShopProduct {
-
-    public $playLangth;
-
-    public function __construct(
-        string $title = "Test product",
-        string $producerMainName = "Nachname",
-        string $producerFirstName = "Vorname",
-        int $playLangth = 0,
-        float $price = 0
-    ) {
-        parent::__construct(
-            $title,
-            $producerMainName,
-            $producerFirstName,
-            $price
-        );
-
-        $this->playLangth = $playLangth;
-
+    public function __construct( string $title, string $MainName,
+                                 string $FirstName, int | float $price,
+                                 private int $playLength)
+    {
+        parent::__construct($title,$MainName,$FirstName,$price);
     }
-
-    public function getPlayLangth () {
-        return $this->playLangth;
+    public function getPlayLangth () : int
+    {
+        return $this->playLength;
     }
-
-    public function getSummaryLine () {
-        $base = "{$this->title} ( {$this->producerMainName},";
-        $base .= "{$this->producerFirstName} )";
-        $base .= ": Время звучания - {$this->playLangth}";
-        return $base;
+    public function getSummaryLine () : string
+    {
+        return parent::getSummaryLine() . ": Время звучания - $this->playLangth";
     }
 
 }
 
 
 class BookProduct extends ShopProduct {
-
-    public $numPages;
-
-    public function __construct(
-        string $title = "Test product",
-        string $producerMainName = "Nachname",
-        string $producerFirstName = "Vorname",
-        int $numPages = 0,
-        float $price = 0
-    ) {
-        parent::__construct(
-            $title,
-            $producerMainName,
-            $producerFirstName,
-            $price
-        );
-
-        $this->numPages = $numPages;
-
+    public function __construct( string $title, string $mainName,
+                                 string $firstName, int | float $price,
+                                 private int $numPages)
+    {
+        parent::__construct($title,$mainName,$firstName,$price);
     }
 
-    public function getNumberOfPages () {
+    public function getNumberOfPages () : int
+    {
         return $this->numPages;
     }
 
-    public function getSummaryLine () {
-        $base = "{$this->title} ( {$this->producerMainName},";
-        $base .= "{$this->producerFirstName} )";
-        $base .= ": {$this->numPages} стр.";
-        return $base;
+    public function getSummaryLine () : string
+    {
+        return parent::getSummaryLine() . ": $this->numPages стр.";
     }
 
 }
@@ -116,9 +84,9 @@ class BookProduct extends ShopProduct {
 
 class ShopProductWriter
 {
-    public function write(ShopProduct $shopProduct)
+    public function write(ShopProduct $shopProduct) : void
     {
-        $str = "<pre>" . $shopProduct->title . ": " . $shopProduct->getProducer() . " (" . $shopProduct->price . ")\n" . "</pre>";
+        $str = "<pre>" . $shopProduct->getTitle() . ": " . $shopProduct->getProducer() . " (" . $shopProduct->getPrice() . ")\n" . "</pre>";
         print $str;
     }
 }
@@ -129,23 +97,6 @@ $product1 = new ShopProduct(
     "Булгаков",
     5.99,
 );
-$writer = new ShopProductWriter();
-
-print $product1->title . "<br>";
-
-print "<hr>";
-
-print "<b>Function</b> getProducer() : <br>";
-
-print "<pre>Автор: " . $product1->getProducer() ."</pre><br>";
-
-print "<b>Function</b> ShopProductWriter::write() : <br>";
-
-$writer->write($product1);
-
-print "<hr>";
-
-print "<b>Object</b> CdProduct : <br><br>";
 
 $product2 = new CdProduct(
     "Классическая музыка. Лучшее",
@@ -155,26 +106,15 @@ $product2 = new CdProduct(
     10.99,
 );
 
-print "Исполнитель: <pre>{$product2->getProducer()}</pre>\n";
-
-print "<pre>{$product2->getSummaryLine()}</pre>\n";
-
-print "<b>Object</b> BookProduct : <br>";
-
 $product3 = new BookProduct(
     "Cобачье сердце",
     "Михаил",
     "Булгаков",
-    600,
-    5.99
+    5.99,
+    600
 );
 
-print "<pre>{$product3->getSummaryLine()}</pre>\n";
+$writer = new ShopProductWriter();
 
-print "<hr><br>";
 
-echo "<pre>";
-var_dump($product1);
-var_dump($product2);
-var_dump($product3);
-echo "</pre>";
+require "index.view.php";
