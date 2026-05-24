@@ -1,34 +1,35 @@
 <?php
-    class ShopProduct {
-        public $title = "Test product";
-        public $producerMainName = "Nachname";
-        public $producerFirstName = "Vorname";
-        public $price = 0;
-    }
+class ShopProduct
+{
+    public $title = "Test product";
+    public $producerMainName = "Nachname";
+    public $producerFirstName = "Vorname";
+    public $price = 0;
+}
 
-    $product1 = new ShopProduct();
-    $product2 = new ShopProduct();
+$product1 = new ShopProduct();
+$product2 = new ShopProduct();
 
-    
-    $product2->title = "Ревизор";
 
-    $product1->arbitraryAddition = "Доп параметр!!!";
+$product2->title = "Ревизор";
 
-    print $product1->title . "<br>";
-    print $product2->title . "<br>";
+$product1->arbitraryAddition = "Доп параметр!!!"; // Deprecated in PHP 8.2
 
-    print "---------------------------------". "<br>";
+print $product1->title . "<br>";
+print $product2->title . "<br>";
 
-    $product1->title = "собачье сердце";
-    $product1->producerFirstName = "Михаил";
-    $product1->producerMainName = "Булгаков";
-    $product1->price = 5.99;
+print "---------------------------------" . "<br>";
 
-    print "Автор: {$product1->producerFirstName} " . "{$product1->producerMainName}" . "<br>";
+$product1->title = "собачье сердце";
+$product1->producerFirstName = "Михаил";
+$product1->producerMainName = "Булгаков";
+$product1->price = 5.99;
 
-    print "---------------------------------". "<br>";
+print "Автор: {$product1->producerFirstName} " . "{$product1->producerMainName}" . "<br>";
 
-    echo "<pre>";
-    var_dump($product1);
-    var_dump($product2);
-    echo "</pre>";
+print "---------------------------------" . "<br>";
+
+echo "<pre>";
+var_dump($product1);
+var_dump($product2);
+echo "</pre>";
