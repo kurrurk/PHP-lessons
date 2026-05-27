@@ -1,34 +1,28 @@
 <?php
-class ShopProduct {
-    public $title;
-    public $producerMainName;
-    public $producerFirstName;
-    public $price;
-
+class ShopProduct
+{
     public function __construct(
-        string $title = "Test product",
-        string $producerMainName = "Nachname",
-        string $producerFirstName = "Vorname",
-        float $price = 0
-    ) {
-        $this->title = $title;
-        $this->producerMainName = $producerMainName;
-        $this->producerFirstName = $producerFirstName;
-        $this->price = $price;
-    }
+        public string $title = "Test product",
+        public string $producerMainName = "Nachname",
+        public string $producerFirstName = "Vorname",
+        public float $price = 0
+    ) {}
 
-    public function getProducer () {
+    public function getProducer()
+    {
         return "{$this->producerFirstName} " . "{$this->producerMainName}";
     }
 
-    public function getSummaryLine () {
+    public function getSummaryLine()
+    {
         $base = "{$this->title} ( {$this->producerMainName},";
         $base .= "{$this->producerFirstName} )";
         return $base;
     }
 }
 
-class CdProduct extends ShopProduct {
+class CdProduct extends ShopProduct
+{
 
     public $playLangth;
 
@@ -36,7 +30,7 @@ class CdProduct extends ShopProduct {
         string $title = "Test product",
         string $producerMainName = "Nachname",
         string $producerFirstName = "Vorname",
-        int $playLangth = 0,
+        float $playLangth = 0,
         float $price = 0
     ) {
         parent::__construct(
@@ -47,24 +41,24 @@ class CdProduct extends ShopProduct {
         );
 
         $this->playLangth = $playLangth;
-
     }
 
-    public function getPlayLangth () {
+    public function getPlayLangth()
+    {
         return $this->playLangth;
     }
 
-    public function getSummaryLine () {
-        $base = "{$this->title} ( {$this->producerMainName},";
-        $base .= "{$this->producerFirstName} )";
+    public function getSummaryLine()
+    {
+        $base = parent::getSummaryLine();
         $base .= ": Время звучания - {$this->playLangth}";
         return $base;
     }
-
 }
 
 
-class BookProduct extends ShopProduct {
+class BookProduct extends ShopProduct
+{
 
     public $numPages;
 
@@ -83,20 +77,19 @@ class BookProduct extends ShopProduct {
         );
 
         $this->numPages = $numPages;
-
     }
 
-    public function getNumberOfPages () {
+    public function getNumberOfPages()
+    {
         return $this->numPages;
     }
 
-    public function getSummaryLine () {
-        $base = "{$this->title} ( {$this->producerMainName},";
-        $base .= "{$this->producerFirstName} )";
+    public function getSummaryLine()
+    {
+        $base = parent::getSummaryLine();
         $base .= ": {$this->numPages} стр.";
         return $base;
     }
-
 }
 
 
@@ -104,7 +97,7 @@ class ShopProductWriter
 {
     public function write(ShopProduct $shopProduct)
     {
-        $str = "<pre>" . $shopProduct->title . ": " . $shopProduct->getProducer() . " (" . $shopProduct->price . ")\n" . "</pre>";
+        $str = "<pre>" . $shopProduct->title . ": " . $shopProduct->getProducer() . " (" . $shopProduct->price . "€)\n" . "</pre>";
         print $str;
     }
 }
@@ -123,15 +116,11 @@ print "<hr>";
 
 print "<b>Function</b> getProducer() : <br>";
 
-print "<pre>Автор: " . $product1->getProducer() ."</pre><br>";
-
-print "<b>Function</b> ShopProductWriter::write() : <br>";
-
-$writer->write($product1);
+print "<pre>Автор: " . $product1->getProducer() . "</pre><br>";
 
 print "<hr>";
 
-print "<b>Object</b> CdProduct : <br><br>";
+print "<p><b>Object</b> CdProduct : </p>";
 
 $product2 = new CdProduct(
     "Классическая музыка. Лучшее",
@@ -141,9 +130,9 @@ $product2 = new CdProduct(
     10.99,
 );
 
-print "Исполнитель: <pre>{$product2->getProducer()}</pre>\n";
+print "Исполнитель: {$product2->getProducer()}\n";
 
-print "<pre>{$product2->getSummaryLine()}</pre>\n";
+print "<p><em>{$product2->getSummaryLine()}</em></p>";
 
 print "<b>Object</b> BookProduct : <br>";
 
@@ -155,9 +144,15 @@ $product3 = new BookProduct(
     5.99
 );
 
-print "<pre>{$product3->getSummaryLine()}</pre>\n";
+print "<p><em>{$product3->getSummaryLine()}</em></p>";
 
 print "<hr><br>";
+
+print "<b>Function</b> ShopProductWriter::write() : <br>";
+
+$writer->write($product2);
+
+print "<hr>";
 
 echo "<pre>";
 var_dump($product1);
