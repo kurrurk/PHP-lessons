@@ -1,10 +1,10 @@
 <?php
-$mysqli =  new mysqli("localhost", "root", "","test");
 
-if (mysqli_connect_errno()){
+$mysqli =  new mysqli("localhost", "root", "", "test");
+
+if (mysqli_connect_errno()) {
     print("Ошибка: Невозможно подключиться к MySQL " . mysqli_connect_error());
-}
-else {
+} else {
     print("Соединение установлено успешно<br>");
     $book[1] = [
         "id" => 1,
@@ -53,7 +53,7 @@ else {
     $result = '';
     $id = 0;
 
-    for ( $i = 1; $i < 3; $i++ ) {
+    for ($i = 1; $i < 3; $i++) {
 
 
 
@@ -69,7 +69,7 @@ else {
 
         $mysqli->query($sql_b);
         $mysqli->close();
-        $mysqli =  new mysqli("localhost", "root", "","test");
+        $mysqli =  new mysqli("localhost", "root", "", "test");
 
         $sql_cd = 'INSERT INTO test SET id = ' . $mysqli->insert_id;
         $sql_cd .= ', type = "' . $CD[$i]["type"] . '"';
@@ -83,8 +83,7 @@ else {
 
         $mysqli->query($sql_cd);
         $mysqli->close();
-        $mysqli =  new mysqli("localhost", "root", "","test");
+        $mysqli =  new mysqli("localhost", "root", "", "test");
     }
     $mysqli->close();
 }
-?>

@@ -1,13 +1,14 @@
 <?php
+
 class ShopProduct
 {
-
     public function __construct(
         public string $title = "Default product",
         public string $producerMainName = "Nachname",
         public string $producerFirstName = "Vorname",
         public float $price = 0
-    ) {}
+    ) {
+    }
 
     public function getProducer()
     {

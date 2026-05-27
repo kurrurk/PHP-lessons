@@ -1,4 +1,5 @@
 <?php
+
 class ShopProduct
 {
     public $title = "Test product";

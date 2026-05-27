@@ -1,59 +1,65 @@
 <?php
-class ShopProduct {
+
+class ShopProduct
+{
     private int | float $discount = 0;
     public function __construct(
         private string $title,
         private string $producerMainName,
         private string $producerFirstName,
-        protected int | float $price)
-    {
+        protected int | float $price
+    ) {
     }
-    public function getProducerFirstName () : string
+    public function getProducerFirstName(): string
     {
         return $this->producerFirstName;
     }
-    public function getProducerMainName () : string
+    public function getProducerMainName(): string
     {
         return $this->producerMainName;
     }
-    public function setDiscount ( int | float $num ) : void
+    public function setDiscount(int | float $num): void
     {
         $this->discount = $num;
     }
-    public function getDiscount () : int | float
+    public function getDiscount(): int | float
     {
         return $this->discount;
     }
-    public function getTitle () : string
+    public function getTitle(): string
     {
         return $this->title;
     }
-    public function getPrice () : int | float
+    public function getPrice(): int | float
     {
         return ($this->price - $this->discount);
     }
-    public function getProducer () : string
+    public function getProducer(): string
     {
         return "$this->producerFirstName $this->producerMainName";
     }
-    public function getSummaryLine () : string
+    public function getSummaryLine(): string
     {
         return "$this->title ( $this->producerMainName $this->producerFirstName )";
     }
 }
 
-class CdProduct extends ShopProduct {
-    public function __construct( string $title, string $MainName,
-                                 string $FirstName, int | float $price,
-                                 private int $playLength)
-    {
-        parent::__construct($title,$MainName,$FirstName,$price);
+class CdProduct extends ShopProduct
+{
+    public function __construct(
+        string $title,
+        string $MainName,
+        string $FirstName,
+        int | float $price,
+        private int $playLength
+    ) {
+        parent::__construct($title, $MainName, $FirstName, $price);
     }
-    public function getPlayLangth () : int
+    public function getPlayLangth(): int
     {
         return $this->playLength;
     }
-    public function getSummaryLine () : string
+    public function getSummaryLine(): string
     {
         return parent::getSummaryLine() . ": Время звучания - $this->playLangth";
     }
@@ -61,20 +67,24 @@ class CdProduct extends ShopProduct {
 }
 
 
-class BookProduct extends ShopProduct {
-    public function __construct( string $title, string $mainName,
-                                 string $firstName, int | float $price,
-                                 private int $numPages)
-    {
-        parent::__construct($title,$mainName,$firstName,$price);
+class BookProduct extends ShopProduct
+{
+    public function __construct(
+        string $title,
+        string $mainName,
+        string $firstName,
+        int | float $price,
+        private int $numPages
+    ) {
+        parent::__construct($title, $mainName, $firstName, $price);
     }
 
-    public function getNumberOfPages () : int
+    public function getNumberOfPages(): int
     {
         return $this->numPages;
     }
 
-    public function getSummaryLine () : string
+    public function getSummaryLine(): string
     {
         return parent::getSummaryLine() . ": $this->numPages стр.";
     }
@@ -84,7 +94,7 @@ class BookProduct extends ShopProduct {
 
 class ShopProductWriter
 {
-    public function write(ShopProduct $shopProduct) : void
+    public function write(ShopProduct $shopProduct): void
     {
         $str = "<pre>" . $shopProduct->getTitle() . ": " . $shopProduct->getProducer() . " (" . $shopProduct->getPrice() . ")\n" . "</pre>";
         print $str;

@@ -1,4 +1,5 @@
 <?php
+
 class ShopProduct
 {
     protected $price = 0;
@@ -38,7 +39,6 @@ class ShopProduct
 
 class CdProduct extends ShopProduct
 {
-
     public $playLangth;
 
     public function __construct(
@@ -79,7 +79,6 @@ class CdProduct extends ShopProduct
 
 class BookProduct extends ShopProduct
 {
-
     public $numPages;
 
     public function __construct(

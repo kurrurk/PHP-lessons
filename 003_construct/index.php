@@ -1,4 +1,5 @@
 <?php
+
 class ShopProduct
 {
     public $title = "Test product";
@@ -34,7 +35,8 @@ class ShopProduct_PHP8
         public $producerMainName = "Nachname",
         public $producerFirstName = "Vorname",
         public $price = 0
-    ) {}
+    ) {
+    }
 
     public function getProducer()
     {

@@ -1,4 +1,5 @@
 <?php
+
 class ShopProduct
 {
     public function __construct(
@@ -6,7 +7,8 @@ class ShopProduct
         public string $producerMainName = "Nachname",
         public string $producerFirstName = "Vorname",
         public float $price = 0
-    ) {}
+    ) {
+    }
 
     public function getProducer()
     {
@@ -23,7 +25,6 @@ class ShopProduct
 
 class CdProduct extends ShopProduct
 {
-
     public $playLangth;
 
     public function __construct(
@@ -59,7 +60,6 @@ class CdProduct extends ShopProduct
 
 class BookProduct extends ShopProduct
 {
-
     public $numPages;
 
     public function __construct(

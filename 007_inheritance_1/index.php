@@ -1,4 +1,5 @@
 <?php
+
 class ShopProduct
 {
     public function __construct(
@@ -8,7 +9,8 @@ class ShopProduct
         public float $playLangth = 0,
         public int $numPages = 0,
         public float $price = 0
-    ) {}
+    ) {
+    }
 
     public function getProducer()
     {
@@ -25,7 +27,6 @@ class ShopProduct
 
 class CdProduct extends ShopProduct
 {
-
     public function getPlayLangth()
     {
         return $this->playLangth;
@@ -43,7 +44,6 @@ class CdProduct extends ShopProduct
 
 class BookProduct extends ShopProduct
 {
-
     public function getNumberOfPages()
     {
         return $this->numPages;

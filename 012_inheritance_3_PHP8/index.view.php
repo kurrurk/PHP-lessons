@@ -34,7 +34,7 @@
             var_dump($product1);
             var_dump($product2);
             var_dump($product3);
-    ?></pre>
+            ?></pre>
 
 </body>
 </html>
