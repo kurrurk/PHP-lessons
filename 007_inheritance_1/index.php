@@ -1,133 +1,105 @@
 <?php
-    class ShopProduct {
-        public $title = "Test product";
-        public $producerMainName = "Nachname";
-        public $producerFirstName = "Vorname";
-        public $price = 0;
-        public $playLangth = 0;
-        public $numPages = 0;
+class ShopProduct
+{
+    public function __construct(
+        public string $title = "Test product",
+        public string $producerMainName = "Nachname",
+        public string $producerFirstName = "Vorname",
+        public float $playLangth = 0,
+        public int $numPages = 0,
+        public float $price = 0
+    ) {}
 
-        public function __construct(
-            string $title = "Test product",
-            string $producerMainName = "Nachname",
-            string $producerFirstName = "Vorname",
-            int $playLangth = 0,
-            int $numPages = 0,
-            float $price = 0
-        ) {
-            $this->title = $title;
-            $this->producerMainName = $producerMainName;
-            $this->producerFirstName = $producerFirstName;
-            $this->price = $price;
-            $this->playLangth = $playLangth;
-            $this->numPages = $numPages;
-        }
-
-        public function getProducer () {
-           return "{$this->producerFirstName} " . "{$this->producerMainName}";
-        }
-
-        public function getSummaryLine () {
-            $base = "{$this->title} ( {$this->producerMainName},";
-            $base .= "{$this->producerFirstName} )";
-            return $base;
-        }
-    }
-
-    class CdProduct extends ShopProduct { 
-
-        public function getPlayLangth () {
-            return $this->playLangth;
-        }
-
-        public function getSummaryLine () {
-            $base = "{$this->title} ( {$this->producerMainName},";
-            $base .= "{$this->producerFirstName} )";
-            $base .= ": Время звучания - {$this->playLangth}";
-            return $base;
-        }
-
-    }
-
-
-    class BookProduct extends ShopProduct {
-
-        public function getNumberOfPages () {
-            return $this->numPages;
-        }
-
-        public function getSummaryLine () {
-            $base = "{$this->title} ( {$this->producerMainName},";
-            $base .= "{$this->producerFirstName} )";
-            $base .= ": {$this->numPages} стр.";
-            return $base;
-        }
-        
-     }
-
-
-    class ShopProductWriter
+    public function getProducer()
     {
-        public function write(ShopProduct $shopProduct)
-        {
-            $str = "<pre>" . $shopProduct->title . ": " . $shopProduct->getProducer() . " (" . $shopProduct->price . ")\n" . "</pre>";
-            print $str;
-        }
+        return "{$this->producerFirstName} " . "{$this->producerMainName}";
     }
 
-    $product1 = new ShopProduct(
-        "Cобачье сердце",
-        "Михаил",
-        "Булгаков",
-        5.99,
-    );
-    $writer = new ShopProductWriter();
-    
-    print $product1->title . "<br>";
+    public function getSummaryLine()
+    {
+        $base = "{$this->title} ( {$this->producerMainName},";
+        $base .= "{$this->producerFirstName} )";
+        return $base;
+    }
+}
 
-    print "<hr>";
+class CdProduct extends ShopProduct
+{
 
-    print "<b>Function</b> getProducer() : <br>";
+    public function getPlayLangth()
+    {
+        return $this->playLangth;
+    }
 
-    print "<pre>Автор: " . $product1->getProducer() ."</pre><br>";    
+    public function getSummaryLine()
+    {
+        $base = "{$this->title} ( {$this->producerMainName},";
+        $base .= "{$this->producerFirstName} )";
+        $base .= ": Время звучания - {$this->playLangth}";
+        return $base;
+    }
+}
 
-    print "<b>Function</b> ShopProductWriter::write() : <br>";
 
-    $writer->write($product1);
+class BookProduct extends ShopProduct
+{
 
-    print "<hr>";
+    public function getNumberOfPages()
+    {
+        return $this->numPages;
+    }
 
-    print "<b>Object</b> CdProduct : <br><br>";
+    public function getSummaryLine()
+    {
+        $base = "{$this->title} ( {$this->producerMainName},";
+        $base .= "{$this->producerFirstName} )";
+        $base .= ": {$this->numPages} стр.";
+        return $base;
+    }
+}
 
-    $product2 = new CdProduct(
-        "Классическая музыка. Лучшее",
-        "Антонио",
-        "Вивальди",
-        60.33,
-        0,
-        10.99,        
-    );
 
-    print "Исполнитель: <pre>{$product2->getProducer()}</pre>\n";
+class ShopProductWriter
+{
+    public function write(ShopProduct $shopProduct)
+    {
+        $str = "<pre>" . $shopProduct->title . ": " . $shopProduct->getProducer() . " (" . $shopProduct->price . ")\n" . "</pre>";
+        print $str;
+    }
+}
 
-    print "<pre>{$product2->getSummaryLine()}</pre>\n";
 
-    print "<b>Object</b> BookProduct : <br>";
+print "<p><b>Object</b> CdProduct : </p>";
 
-    $product3 = new BookProduct(
-        "Cобачье сердце",
-        "Михаил",
-        "Булгаков",
-        0,
-        600,
-        5.99
-    );
+$product2 = new CdProduct(
+    "Классическая музыка. Лучшее",
+    "Антонио",
+    "Вивальди",
+    60.33,
+    0,
+    10.99,
+);
 
-    print "<pre>{$product3->getSummaryLine()}</pre>\n";
+print "Исполнитель: {$product2->getProducer()}\n";
 
-    print "<hr><br>";
+print "<p><em>{$product2->getSummaryLine()}</em></p>";
 
-    echo "<pre>";
-    var_dump($product1);
-    var_dump($product2);
-    echo "</pre>";
+print "<b>Object</b> BookProduct : <br>";
+
+$product1 = new BookProduct(
+    "Cобачье сердце",
+    "Михаил",
+    "Булгаков",
+    0,
+    600,
+    5.99
+);
+
+print "<p><em>{$product1->getSummaryLine()}</em></p>";
+
+print "<hr><br>";
+
+echo "<pre>";
+var_dump($product1);
+var_dump($product2);
+echo "</pre>";
