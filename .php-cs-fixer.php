@@ -4,14 +4,12 @@ use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
 $finder = Finder::create()
-    ->in(__DIR__)
-;
+    ->in(__DIR__);
 
 return (new Config())
     ->setRiskyAllowed(true)
     ->setRules([
-        '@Symfony' => true,
-        '@PhpCsFixer' => true,
+        '@PSR12' => true,
 
         'array_indentation' => true,
 
