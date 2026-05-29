@@ -2,16 +2,31 @@
 
 echo '---------- start: require_once "db.php";  -------------' . "<br>";
 require_once "db.php";
+if (isset($db)) {
+
+    $stmt = $db->query('SELECT id FROM products');
+
+    $ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+    echo count($ids) . " products in database<br>";
+}
 echo '---------- end: require_once "db.php";  -------------' . "<br>";
 
 class ShopProduct
 {
-    protected $title;
-    protected $producerMainName;
-    protected $producerFirstName;
-    protected $price;
-    protected $id = 0;
-    protected $discount = 0;
+    private float|int $discount = 0;
+    private int $id = 0;
+
+    public const AVAILABLE = 0;
+    public const OUT_OF_STOCK = 1;
+
+    public function __construct(
+        private string $title,
+        private string $producerMainName,
+        private string $producerFirstName,
+        protected float|int $price
+    ) {
+    }
 
     /**
      * @return int
@@ -103,18 +118,6 @@ class ShopProduct
         return $this->id;
     }
 
-    public function __construct(
-        string $title = "Test product",
-        string $producerMainName = "Nachname",
-        string $producerFirstName = "Vorname",
-        float $price = 0
-    ) {
-        $this->title = $title;
-        $this->producerMainName = $producerMainName;
-        $this->producerFirstName = $producerFirstName;
-        $this->price = $price;
-    }
-
     public function getProducer()
     {
         return "{$this->producerFirstName} " . "{$this->producerMainName}";
@@ -136,25 +139,25 @@ class ShopProduct
             return null;
         }
 
-        if ($row['type'] == "книга") {
+        if ($row['type'] == "book") {
             $product = new BookProduct(
                 $row['title'],
                 $row['firstname'],
                 $row['mainname'],
-                (float) $row['price'],
-                (int) $row['numpages']
+                price: (float) $row['price'],
+                numPages: (int) $row['numpages']
             );
-        } elseif ($row['type'] == "диск") {
-            $product = new BookProduct(
+        } elseif ($row['type'] == "cd") {
+            $product = new CdProduct(
                 $row['title'],
                 $row['firstname'],
                 $row['mainname'],
-                (float) $row['price'],
-                (int) $row['playlength']
+                price: (float) $row['price'],
+                playLength: (int) $row['playlength']
             );
         } else {
             $firstname = (is_null($row['firstname'])) ? "" : $row['firstname'];
-            $product = new BookProduct(
+            $product = new ShopProduct(
                 $row['title'],
                 $firstname,
                 $row['mainname'],
@@ -169,36 +172,25 @@ class ShopProduct
 
 class CdProduct extends ShopProduct
 {
-    public $playLangth;
-
     public function __construct(
-        string $title = "Test product",
-        string $producerMainName = "Nachname",
-        string $producerFirstName = "Vorname",
-        int $playLangth = 0,
-        float $price = 0
+        string $title,
+        string $MainName,
+        string $FirstName,
+        int | float $price,
+        private int | float $playLength
     ) {
-        parent::__construct(
-            $title,
-            $producerMainName,
-            $producerFirstName,
-            $price
-        );
-
-        $this->playLangth = $playLangth;
-
+        parent::__construct($title, $MainName, $FirstName, $price);
     }
 
-    public function getPlayLangth()
+    public function getPlayLength()
     {
-        return $this->playLangth;
+        return $this->playLength;
     }
 
     public function getSummaryLine()
     {
-        $base = "{$this->title} ( {$this->producerMainName},";
-        $base .= "{$this->producerFirstName} )";
-        $base .= ": Время звучания - {$this->playLangth}";
+        $base = parent::getSummaryLine();
+        $base .= ": Время звучания - {$this->playLength}";
         return $base;
     }
 
@@ -207,24 +199,14 @@ class CdProduct extends ShopProduct
 
 class BookProduct extends ShopProduct
 {
-    public $numPages;
-
     public function __construct(
-        string $title = "Test product",
-        string $producerMainName = "Nachname",
-        string $producerFirstName = "Vorname",
-        int $numPages = 0,
-        float $price = 0
+        string $title,
+        string $mainName,
+        string $firstName,
+        int | float $price,
+        private int $numPages
     ) {
-        parent::__construct(
-            $title,
-            $producerMainName,
-            $producerFirstName,
-            $price
-        );
-
-        $this->numPages = $numPages;
-
+        parent::__construct($title, $mainName, $firstName, $price);
     }
 
     public function getNumberOfPages()
@@ -234,8 +216,7 @@ class BookProduct extends ShopProduct
 
     public function getSummaryLine()
     {
-        $base = "{$this->title} ( {$this->producerMainName},";
-        $base .= "{$this->producerFirstName} )";
+        $base = parent::getSummaryLine();
         $base .= ": {$this->numPages} стр.";
         return $base;
     }
@@ -262,8 +243,6 @@ $product1 = new ShopProduct(
 );
 $writer = new ShopProductWriter();
 
-print $product1->getTitle() . "<br>";
-
 print "<hr>";
 
 print "<b>Function</b> getProducer() : <br>";
@@ -282,8 +261,8 @@ $product2 = new CdProduct(
     "Классическая музыка. Лучшее",
     "Антонио",
     "Вивальди",
-    60.33,
-    10.99,
+    playLength: 60.33,
+    price: 10.99,
 );
 
 print "Исполнитель: <pre>{$product2->getProducer()}</pre>\n";
@@ -296,8 +275,8 @@ $product3 = new BookProduct(
     "Cобачье сердце",
     "Михаил",
     "Булгаков",
-    600,
-    5.99
+    numPages: 600,
+    price: 5.99
 );
 
 print "<pre>{$product3->getSummaryLine()}</pre>\n";
@@ -305,7 +284,7 @@ print "<pre>{$product3->getSummaryLine()}</pre>\n";
 print "<hr><br>";
 
 echo "<pre>";
-var_dump(ShopProduct::getInstance(4, $pdo));
+var_dump(ShopProduct::getInstance(4, $db));
 var_dump($product1);
 var_dump($product2);
 var_dump($product3);
