@@ -223,15 +223,7 @@ class BookProduct extends ShopProduct
 
 }
 
-
-class ShopProductWriter
-{
-    public function write(ShopProduct $shopProduct)
-    {
-        $str = "<pre>" . $shopProduct->getTitle() . ": " . $shopProduct->getProducer() . " (" . $shopProduct->getPrice() . ")\n" . "</pre>";
-        print $str;
-    }
-}
+require_once "abstract_classes.php";
 
 // тело программы
 
@@ -241,7 +233,9 @@ $product1 = new ShopProduct(
     "Булгаков",
     5.99,
 );
-$writer = new ShopProductWriter();
+
+
+
 
 print "<hr>";
 
@@ -251,7 +245,23 @@ print "<pre>Автор: " . $product1->getProducer() ."</pre><br>";
 
 print "<b>Function</b> ShopProductWriter::write() : <br>";
 
-$writer->write($product1);
+if (isset($db)) {
+
+    $count = $db
+    ->query('SELECT COUNT(*) FROM products')
+    ->fetchColumn();
+
+    $randomProduct = ShopProduct::getInstance(random_int(1, $count), $db);
+
+    $writer = new TextProductWriter();
+    $writer->addProduct($randomProduct);
+    $writer->write();
+
+    $writer2 = new XmlProductWriter();
+    $writer2->addProduct($randomProduct);
+    $writer2->write();
+
+}
 
 print "<hr>";
 

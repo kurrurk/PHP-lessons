@@ -4,4 +4,7 @@ composer.lock
 .idea/
 .vscode/
 
+database.sqlite
+products.xml
+
 .DS_Store
