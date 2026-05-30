@@ -26,7 +26,7 @@ class UtilityService extends Service
         PriceUtilities::calculateTax as private;
     }
 
-    private float $taxrate = 0;
+    private float $taxrate = 0.0;
 
     public function __construct(private float $price)
     {
