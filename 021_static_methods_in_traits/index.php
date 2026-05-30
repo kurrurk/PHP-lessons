@@ -1,0 +1,80 @@
+<?php
+
+require_once "traits.php";
+
+interface IdentityObject
+{
+    public function generateId(): string;
+}
+
+class ShopProduct implements IdentityObject
+{
+    use PriceUtilities;
+    use IdentityTrait;
+}
+
+abstract class Service
+{
+    abstract public function doSomething(): void;
+}
+
+class UtilityService extends Service
+{
+    use PriceUtilities;
+    use TaxTools
+    {
+        TaxTools::calculateTax insteadof PriceUtilities;
+        PriceUtilities::calculateTax as basicTax; // нельзя просто использовать as, надо сперва рещить какой из методов является методом поумолчанию при помощи insteadof
+    }
+
+    public function doSomething(): void
+    {
+        // Implementation of the abstract method
+    }
+}
+
+function getReflection(string $classname): ReflectionClass
+{
+    $reflection = new ReflectionClass($classname);
+
+    echo 'Class: ' . $reflection->getName() . PHP_EOL;
+    if ($reflection->getParentClass()) {
+        echo 'Parent: ' . $reflection->getParentClass()?->getName() . PHP_EOL;
+    }
+
+    echo PHP_EOL . 'Interfaces:' . PHP_EOL;
+
+    foreach ($reflection->getInterfaceNames() as $interface) {
+        echo ' - ' . $interface . PHP_EOL;
+    }
+
+    echo '<br/><hr><br/>';
+    return new ReflectionClass($classname);
+}
+
+$shopProduct = new ShopProduct();
+$utilityService = new UtilityService();
+
+// тело программы
+
+print '<strong>ShopProduct</strong>::calculateTax(100): ' . ShopProduct::calculateTax(100) . "<br>";
+print '<strong>$utilityService</strong>->calculateTax(100): ' . $utilityService->calculateTax(100) . "<br>";
+print '<strong>UtilityService</strong>::basicTax(100): ' . UtilityService::basicTax(100) . "<br>";
+
+print "<hr>";
+
+print '<strong>$shopProduct</strong>->generateId(): ' . $shopProduct->generateId() . "<br>";
+
+print "<hr>";
+
+echo "<pre>";
+var_dump($shopProduct);
+var_dump($utilityService);
+echo "</pre>";
+
+print "<hr>";
+
+echo "<pre>";
+getReflection(ShopProduct::class);
+getReflection(UtilityService::class);
+echo "</pre>";
