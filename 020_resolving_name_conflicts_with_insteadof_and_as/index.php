@@ -24,6 +24,7 @@ class UtilityService extends Service
     use TaxTools
     {
         TaxTools::calculateTax insteadof PriceUtilities;
+        PriceUtilities::calculateTax as basicTax; // нельзя просто использовать as, надо сперва рещить какой из методов является методом поумолчанию при помощи insteadof
     }
 
     public function doSomething(): void
@@ -58,6 +59,7 @@ $utilityService = new UtilityService();
 
 print '<strong>$shopProduct</strong>->calculateTax(100): ' . $shopProduct->calculateTax(100) . "<br>";
 print '<strong>$utilityService</strong>->calculateTax(100): ' . $utilityService->calculateTax(100) . "<br>";
+print '<strong>$utilityService</strong>->basicTax(100): ' . $utilityService->basicTax(100) . "<br>";
 
 print "<hr>";
 
