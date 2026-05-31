@@ -81,7 +81,7 @@ class Runner
         } catch (\Exception $e) {
             // Ловушка: этот код не должен вызываться
         } catch (\Throwable $e) { // добавлено чтобы отлавливать случайные ошибки TypeError и т.п.
-            echo get_class($e);
+            echo get_class($e). "<br>";
         }
     }
 }
