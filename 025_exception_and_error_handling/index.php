@@ -16,7 +16,7 @@ class Conf
     public function write(): void
     {
         if (!is_writable($this->file)) {
-            throw new \Exception("Файл '{$this->file}' не найден или не существует");
+            throw new \Exception("Нельзя писать в '{$this->file}'");
         }
         file_put_contents($this->file, $this->xml->asXML());
     }
