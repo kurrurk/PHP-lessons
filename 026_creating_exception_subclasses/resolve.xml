@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<conf>
+   <item name="user">john</item>
+   <item name="pass">qwertz</item>
+   <item name="host">localhost</item>
+   <item name="secondname">smith</item>
+</conf>
