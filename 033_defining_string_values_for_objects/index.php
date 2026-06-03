@@ -18,6 +18,7 @@ class Person
         return $desc;
     }
 
+    // Можно вставить только классы реализующие интерефейс Stringable
     public static function printThing(string | \Stringable $str): void
     {
         print "Напечатано в <strong>Person</strong>::printThing -> " . $str;
@@ -25,10 +26,14 @@ class Person
 
 }
 
-// Можно вставить только классы реализующие интерефейс Stringable
-
+class ErrorString
+{
+}
 
 $person = new Person();
+$err = new ErrorString();
 echo "----------------------------<br/>\n";
 echo Person::printThing($person) . "<br>";
 echo "----------------------------<br/>\n";
+// Можно вставить только классы реализующие интерефейс Stringable
+echo Person::printThing($err) . "<br>";
