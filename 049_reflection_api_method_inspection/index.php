@@ -93,12 +93,3 @@ foreach ($methods as $method) {
 
 }
 echo "</pre>";
-
-
-// $prodclass = new \ReflectionClass(CDProduct::class);
-// print ClassInfo::getData($prodclass);
-// echo "</pre>----------------------------<br/>\n<pre>";
-// print ReflectionUtil::getClassSource(new \ReflectionClass(CDProduct::class));
-// echo "</pre>----------------------------<br/>\n<pre>";
-// print $prodclass;
-// echo "</pre>----------------------------<br/>\n";
