@@ -72,6 +72,37 @@ class Modulrunner
             array_push($this->modules, $module);
         }
     }
+
+    public function handleMethod(Module $module, \ReflectionMethod $method, array $params): bool
+    {
+        $name = $method->getName();
+        $args = $method->getParameters();
+
+        if (count($args) != 1 || substr($name, 0, 3) != "set") {
+            return false;
+        }
+
+        $property = strtolower(substr($name, 3));
+
+        if (! isset($params[$property])) {
+            return false;
+        }
+
+        if (! $args[0]->hasType()) {
+            $method->invoke($module, $params[$property]);
+            return true;
+        }
+
+        $arg_type = $args[0]->getType();
+
+        if (!($arg_type instanceof \ReflectionUnionType) && class_exists($arg_type->getName())) {
+            $method->invoke($module, (new \ReflectionClass($arg_type->getName()))->newInstance($params[$property]));
+        } else {
+            $method->invoke($module, $params[$property]);
+        }
+
+        return true;
+    }
     //..
 }
 
