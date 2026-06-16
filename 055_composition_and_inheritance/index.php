@@ -50,7 +50,7 @@ class Seminar extends Lesson
     // Реализации спицифичный для класса Seminar...
 }
 
-// применение композиции
+// применение композиции (шаблон Strategy)
 
 abstract class Lesson2
 {
@@ -115,6 +115,9 @@ class FixedCostStrategy extends CostStrategy
         return "Фиксированная оплата";
     }
 }
+
+// выполнение программы
+
 echo "<pre>";
 echo "----------------------------<br/>\n";
 $lecture = new Lecture(5, Lesson::FIXED);
