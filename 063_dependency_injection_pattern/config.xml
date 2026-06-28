@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects>
+  <class name="ApptEncoder">
+    <instance inst="BloggsApptEncoder" />
+  </class>  
+  <class name="Sea">
+    <instance inst="EarthSea" />
+  </class>  
+  <class name="Plains">
+    <instance inst="MarsPlains" />
+  </class>  
+  <class name="Forest">
+    <instance inst="EarthForest" />
+  </class>  
+</objects>

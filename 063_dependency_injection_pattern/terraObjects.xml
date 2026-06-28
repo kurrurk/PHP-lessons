@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects>
+  <class name="TerrainFactory">
+    <arg num="0" inst="EarthSea" />
+    <arg num="1" inst="EarthPlains" />
+    <arg num="2" inst="EarthForest" />
+  </class>  
+  <class name="Forest">
+    <instance inst="EarthForest" />
+  </class>
+  <class name="AppointmentMaker2">
+    <arg num="0" inst="BloggsApptEncoder" />
+  </class>
+</objects>
